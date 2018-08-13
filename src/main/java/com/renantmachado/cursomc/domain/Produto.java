@@ -20,31 +20,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
-	
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id; 
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
 	private String nome;
 	private Double preco;
-	
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(
-	joinColumns = @JoinColumn(name="produto_id"),
-	inverseJoinColumns = @JoinColumn(name="categoria_id")
-	)	
-	private List <Categoria> categorias = new ArrayList<>();
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="id.produto")
+	@ManyToMany
+	@JoinTable(joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private List<Categoria> categorias = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
-	
+
 	public Produto() {
-		
+
 	}
 
 	public Produto(Integer id, String nome, Double preco) {
@@ -53,11 +49,11 @@ public class Produto implements Serializable {
 		this.nome = nome;
 		this.preco = preco;
 	}
-	
+
 	@JsonIgnore
-	public List<Pedido> getPedidos(){ 
-		List <Pedido> lista = new ArrayList<>();
-		for(ItemPedido x : itens) {
+	public List<Pedido> getPedidos() {
+		List<Pedido> lista = new ArrayList<>();
+		for (ItemPedido x : itens) {
 			lista.add(x.getPedido());
 		}
 		return lista;
@@ -86,15 +82,15 @@ public class Produto implements Serializable {
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-	
-	public List <Categoria> getCategorias() {
+
+	public List<Categoria> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(List <Categoria> categorias) {
+	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
 	}
-	
+
 	public Set<ItemPedido> getItens() {
 		return itens;
 	}
@@ -102,7 +98,7 @@ public class Produto implements Serializable {
 	public void setItens(Set<ItemPedido> itens) {
 		this.itens = itens;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,6 +128,5 @@ public class Produto implements Serializable {
 	public String toString() {
 		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + "]";
 	}
-
 
 }
