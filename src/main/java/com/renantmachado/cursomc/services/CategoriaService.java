@@ -1,8 +1,8 @@
 package com.renantmachado.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -43,6 +43,9 @@ public class CategoriaService {
 		catch(DataIntegrityViolationException ex){
 			throw new DataIntegrityException("Não é possivel exclluir uma categoria que possui produtos assiciados a ela");
 		}
+	}
+	public List<Categoria> findAll(){
+		return repo.findAll();
 	}
 	
 
